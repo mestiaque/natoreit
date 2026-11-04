@@ -1,0 +1,32 @@
+{
+    "name": "nit/natoreit",
+    "description": "Nit module for Laravel (by M. Estiaque Ahmed Khan)",
+    "type": "library",
+    "keywords": [
+        "Laravel",
+        "Nit",
+        "Estiaque"
+    ],
+    "authors": [
+        {
+            "name": "M. Estiaque Ahmed Khan",
+            "email": "info@mestiaque.com",
+            "homepage": "https://mestiaque.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "ME\\Nit\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ME\\Nit\\NitServiceProvider"
+            ]
+        }
+    },
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

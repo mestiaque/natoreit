@@ -1,0 +1,81 @@
+<?php
+// Customer reviews from natoreit.com/customer-opinion
+return [
+    [
+        'title' => 'Web Hosting',
+        'date' => 'December 27, 2020',
+        'rating' => 5,
+        'text' => 'Natore-IT is the best domain & hosting company in Bangladesh.',
+        'author' => 'Info Tech',
+    ],
+    [
+        'title' => 'web design',
+        'date' => 'april 28, 2018',
+        'rating' => 5,
+        'text' => 'The best web hosting and The best web hosting and design service in uttara, Dhaka. service in uttara, Dhaka.',
+        'author' => 'Khalid Hasan Akash',
+    ],
+    [
+        'title' => 'Support Review',
+        'date' => 'December 13, 2017',
+        'rating' => 5,
+        'text' => 'There Support team is so good. Also Price is great. Thanks Natore-IT.',
+        'author' => 'Shahin Alam',
+    ],
+    [
+        'title' => 'response review',
+        'date' => 'November, 20 ,2019',
+        'rating' => 5,
+        'text' => 'Natore-IT server provides reliable speeds and good response.Natore-IT is best domain & Hosting company. Great support take from their employees. Never disappointment to work with them.',
+        'author' => 'SSL Comodo',
+    ],
+    [
+        'title' => 'Domain Sell Service',
+        'date' => 'November, 30 ,2019',
+        'rating' => 5,
+        'text' => 'Natore-IT is the best domain & hosting company in Bangladesh. I am very plessed to purchase them domain & hosting . Their are best service.',
+        'author' => 'Md NaSiR SiKDeR',
+    ],
+    [
+        'title' => 'Hosting Service',
+        'date' => 'November, 12 ,2019',
+        'rating' => 5,
+        'text' => 'Natore-IT Domain & Hosting Company I am very happy to buy them hosting Their service is very good',
+        'author' => 'Ashraf Ahmed',
+    ],
+    [
+        'title' => 'Natore-IT Service',
+        'date' => 'Agust 13, 2019',
+        'rating' => 5,
+        'text' => 'Best Domain, Hosting, Web Design service in Bangladesh, Cheapest rate, 24/7 Free Support!',
+        'author' => 'Mosharraf Karim',
+    ],
+    [
+        'title' => 'Best eCommerce and dropping design and best support service',
+        'date' => 'December 13, 2019',
+        'rating' => 5,
+        'text' => 'Natoreit, Rahman Ali has created a very good e-commerce drop shipping site.He has good experience. He always helps me up to date. I have been successful in my business, getting help from him for many years. Mr Raihan Ali really good man and helpful man.I like him.He helps to me all time.',
+        'author' => 'kgshopbd -Tapon Swati , MD. kgshopbd',
+    ],
+    [
+        'title' => 'Better ecommerce design and best support service',
+        'date' => 'March 28, 2018',
+        'rating' => 5,
+        'text' => 'Natoreit, Rahman Ali has created a very good e-commerce site. He always helps me up to date. I have been successful in my business, getting help from him for many years. Mr Raihan Ali really good man and helpful man.',
+        'author' => 'kgshopbd -Tapon',
+    ],
+    [
+        'title' => 'Superb IT service!',
+        'date' => 'March 23, 2018',
+        'rating' => 5,
+        'text' => 'Extremely customer friendly. Natoreit designed a very tasteful website for me and without my stating it they understood my colour theme! I was so pleased, didn’t change the design a bit! They went out of their way to coax and encourage me to get the website done and even suggested a domain name that would best suit and support my business aims. Mr Raihan Ali really impressed me with his professionalism, and having worked for a Fortune 500 company myself, you can understand the kind of professionalism I’m accustomed to. I’m very fortunate I came across NatoreIT.',
+        'author' => 'Z Ferdous',
+    ],
+    [
+        'title' => 'best IT solution',
+        'date' => 'March 22, 2018',
+        'rating' => 5,
+        'text' => 'Natore-it is best IT solution Palash - ‹ - 1 - 2',
+        'author' => '- ›',
+    ],
+];
