@@ -9,11 +9,11 @@
 
     <section class="section" aria-labelledby="projectsTitle">
         <div class="container">
-            <h2 class="visually-hidden" id="projectsTitle">Projects</h2>
+            <h2 class="visually-hidden" id="projectsTitle">{{ $tx('Projects') }}</h2>
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
                 <div class="filter-bar" role="group" aria-label="Filter projects"
                      data-filter-group="#portfolioGrid" data-filter-status="#portfolioStatus" data-filter-noun="project">
-                    <button type="button" class="btn active" data-filter="all" aria-pressed="true">All</button>
+                    <button type="button" class="btn active" data-filter="all" aria-pressed="true">{{ $tx('All') }}</button>
                     @foreach($categories as $key => $label)
                         <button type="button" class="btn" data-filter="{{ $key }}" aria-pressed="false">{{ $label }}</button>
                     @endforeach
@@ -26,7 +26,7 @@
                         <div class="h-100">
                             <a class="nit-card card-hover portfolio-tile h-100" href="{{ $item['url'] }}" target="_blank" rel="noopener">
                                 <span class="card-media skel"><img src="{{ $item['image'] }}" alt="" width="400" height="300" loading="lazy" data-skeleton></span>
-                                <span class="portfolio-title">{{ $item['title'] }} <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i><span class="visually-hidden"> (opens in a new tab)</span></span>
+                                <span class="portfolio-title">{{ $item['title'] }} <i class="bi {{ $ic('bi-box-arrow-up-right') }}" aria-hidden="true"></i><span class="visually-hidden"> (opens in a new tab)</span></span>
                             </a>
                         </div>
                     </div>
@@ -44,5 +44,5 @@
         </div>
     </section>
 
-    @include('nit::partials.cta', ['ctaHeading' => 'Want a website like these?', 'ctaText' => 'Pick a web design package or tell us about your project.', 'ctaUrl' => route('nit.site.web-design'), 'ctaLabel' => 'Web design packages'])
+    @include('nit::partials.cta', ['ctaHeading' => $tx('Want a website like these?'), 'ctaText' => $tx('Pick a web design package or tell us about your project.'), 'ctaUrl' => route('nit.site.web-design'), 'ctaLabel' => $tx('Web design packages')])
 @endsection

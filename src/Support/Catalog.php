@@ -215,7 +215,7 @@ class Catalog
     public static function softwareSolutions(): array
     {
         return [
-            ['bi-window', 'Web Applications'], ['bi-shop', 'POS Software'], ['bi-hospital', 'Hospital Management Software'],
+            ['bi-diagram-3', 'ERP Software'], ['bi-code-square', 'Custom Web Applications'], ['bi-shop', 'POS Software'], ['bi-hospital', 'Hospital Management Software'],
             ['bi-box-seam', 'Inventory Management Software'], ['bi-mortarboard', 'School Management Software'], ['bi-boxes', 'Stock Management Software'],
             ['bi-graph-up', 'Sales Management Software'], ['bi-bag', 'Retail Management Software'], ['bi-capsule', 'Pharmacy Management Software'],
             ['bi-calculator', 'Accounting Software'], ['bi-people', 'NGO Management Software'], ['bi-buildings', 'Apartment Management Software'],
@@ -227,7 +227,8 @@ class Catalog
     {
         return [
             ['bi-shield-lock', 'Reliability, Speed and Security'], ['bi-phone', 'Responsive Design'], ['bi-journal-bookmark', 'Easy Knowledge Base'],
-            ['bi-tools', 'Free Web Tools & Applications'], ['bi-award', '24/7 Award Winning Support'], ['bi-arrow-repeat', 'Free Updates Lifetime'],
+            ['bi-tools', 'Free Web Tools & Applications'], ['bi-headset', '24/7 Support'], ['bi-arrow-repeat', 'Free Updates Lifetime'],
+            ['bi-code-slash', 'In-house Development Team'], ['bi-boxes', 'Hosting and Software Under One Roof'],
         ];
     }
 

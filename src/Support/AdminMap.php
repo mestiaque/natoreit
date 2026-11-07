@@ -15,9 +15,13 @@ class AdminMap
         'seo'           => ['SEO', 'nit.site.plans', 'seo'],
         'web_design'    => ['Web Design', 'nit.site.web-design'],
         'multi_vendor'  => ['Multi Vendor', 'nit.site.multi-vendor'],
+        'erp'           => ['ERP Software', 'nit.site.erp'],
+        'custom'        => ['Custom Web Application', 'nit.site.custom'],
         'pos'           => ['POS Software', 'nit.site.pos'],
         'crm'           => ['CRM Software', 'nit.site.crm'],
         'software'      => ['Software Solution', 'nit.site.software-solution'],
+        'quote'         => ['Get a quote', 'nit.site.quote'],
+        'not_found'     => ['Page not found', 'nit.site.home'],
         'ssl'           => ['SSL', 'nit.site.ssl'],
         'domain'        => ['Domain', 'nit.site.domain'],
         'about'         => ['About', 'nit.site.about'],
@@ -35,12 +39,13 @@ class AdminMap
         'ssl'                  => ['ssl'],
         'plan-pages'           => ['hosting', 'vps', 'seo', 'all'],
         'plans'                => ['hosting', 'vps', 'seo'],
-        'software'             => ['pos', 'crm', 'multi_vendor'],
+        'software'             => ['erp', 'custom', 'pos', 'crm', 'multi_vendor'],
         'portfolio'            => ['portfolio'],
         'portfolio-categories' => ['portfolio'],
         'team'                 => ['about'],
         'reviews'              => ['reviews'],
         'settings'             => ['all', 'contact', 'coupon'],
+        'messages'             => ['contact', 'quote', 'all'],
         'list:why_choose'      => ['home', 'web_design'],
         'list:site_types'      => ['home', 'web_design'],
         'list:featured_hosting'=> ['home'],
@@ -51,12 +56,19 @@ class AdminMap
         'list:domain_links'    => ['domain'],
         'list:payment_methods' => ['all'],
         'list:footer_resources'=> ['all'],
+        'list:stats'           => ['home'],
+        'list:quote_services'  => ['quote'],
+        'list:quote_budgets'   => ['quote'],
+        'list:process'         => ['home'],
+        'list:tech'            => ['home'],
+        'list:software_home'   => ['home'],
+        'list:faqs'            => ['home', 'hosting'],
     ];
 
     /** Page-text tab => website page. */
     public const TEXTS = [
         'home' => 'home', 'web_design' => 'web_design', 'multi_vendor' => 'multi_vendor', 'software_solution' => 'software', 'ssl' => 'ssl',
-        'domain' => 'domain', 'about' => 'about', 'portfolio' => 'portfolio', 'reviews' => 'reviews', 'contact' => 'contact', 'coupon' => 'coupon',
+        'domain' => 'domain', 'about' => 'about', 'portfolio' => 'portfolio', 'reviews' => 'reviews', 'contact' => 'contact', 'coupon' => 'coupon', 'quote' => 'quote', 'not_found' => 'not_found',
     ];
 
     /** [label => url] of the pages an admin area shows on. */

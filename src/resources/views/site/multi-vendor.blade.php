@@ -39,5 +39,5 @@
         </section>
     @endforeach
 
-    @include('nit::partials.cta', ['ctaHeading' => 'Planning a marketplace?', 'ctaText' => 'Tell us about your vendors and products — we will share a proposal and timeline.', 'ctaUrl' => route('nit.site.contact'), 'ctaLabel' => 'Get a quote'])
+    @include('nit::partials.cta', ['ctaHeading' => $tx('Planning a marketplace?'), 'ctaText' => $tx('Tell us about your vendors and products — we will share a proposal and timeline.'), 'ctaUrl' => route('nit.site.contact'), 'ctaLabel' => $tx('Get a quote')])
 @endsection

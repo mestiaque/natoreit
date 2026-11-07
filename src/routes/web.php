@@ -8,6 +8,9 @@ Route::group(['prefix' => 'admin', 'as' => 'nit.admin.', 'middleware' => ['web',
     Route::get('/', [Admin\DashboardController::class, 'index'])->name('dashboard');
     Route::get('settings', [Admin\SettingsController::class, 'edit'])->name('settings');
     Route::put('settings', [Admin\SettingsController::class, 'update'])->name('settings.update');
+    Route::get('appearance', [Admin\AppearanceController::class, 'edit'])->name('appearance');
+    Route::put('appearance', [Admin\AppearanceController::class, 'update'])->name('appearance.update');
+    Route::post('appearance/reset', [Admin\AppearanceController::class, 'reset'])->name('appearance.reset');
     Route::get('page-texts', [Admin\PageTextController::class, 'edit'])->name('page-texts');
     Route::get('page-texts/{page}', [Admin\PageTextController::class, 'edit'])->whereIn('page', array_keys(\ME\Nit\Support\Content::PAGES))->name('page-texts.page');
     // One address per list, so the menu shows which list is open
@@ -26,7 +29,9 @@ Route::group(['prefix' => 'admin', 'as' => 'nit.admin.', 'middleware' => ['web',
         'reviews'              => Admin\ReviewController::class,
         'lists'                => Admin\ListItemController::class,
         'software'             => Admin\SoftwarePageController::class,
+        'messages'             => Admin\MessageController::class,
     ];
+    Route::get('messages/export', [Admin\MessageController::class, 'export'])->name('messages.export');
     foreach ($resources as $uri => $controller) {
         $actions = array_keys($controller::$permissions);
         Route::get($uri, [$controller, 'index'])->name("$uri.index");
@@ -54,6 +59,8 @@ Route::group(['prefix' => config('nit.site_prefix', ''), 'as' => 'nit.site.', 'm
         ->whereIn('slug', array_keys(\ME\Nit\Support\Content::planPages()));
     Route::get('/web-design', [SiteController::class, 'webDesign'])->name('web-design');
     Route::get('/multi-vendor-ecommerce', [SiteController::class, 'multiVendor'])->name('multi-vendor');
+    Route::get('/erp-software', [SiteController::class, 'software'])->defaults('key', 'erp')->name('erp');
+    Route::get('/custom-web-application', [SiteController::class, 'software'])->defaults('key', 'custom')->name('custom');
     Route::get('/pos-software', [SiteController::class, 'software'])->defaults('key', 'pos')->name('pos');
     Route::get('/crm-software', [SiteController::class, 'software'])->defaults('key', 'crm')->name('crm');
     Route::get('/software-solution', [SiteController::class, 'softwareSolution'])->name('software-solution');
@@ -64,6 +71,11 @@ Route::group(['prefix' => config('nit.site_prefix', ''), 'as' => 'nit.site.', 'm
     Route::get('/customer-opinion', [SiteController::class, 'reviews'])->name('reviews');
     Route::get('/contact-us', [SiteController::class, 'contact'])->name('contact');
     Route::get('/coupon', [SiteController::class, 'coupon'])->name('coupon');
+    Route::post('/contact-us', [SiteController::class, 'sendMessage'])->middleware('throttle:5,1')->name('contact.send');
+    Route::get('/get-quote', [SiteController::class, 'quote'])->name('quote');
+    Route::post('/get-quote', [SiteController::class, 'sendQuote'])->middleware('throttle:5,1')->name('quote.send');
+    Route::get('/sitemap.xml', [SiteController::class, 'sitemap'])->name('sitemap');
+    Route::post('/subscribe', [SiteController::class, 'subscribe'])->middleware('throttle:5,1')->name('subscribe');
     Route::get('/domain/check', [SiteController::class, 'domainCheck'])->middleware('throttle:30,1')->name('domain-check');
 
     // Old demo URLs
@@ -71,4 +83,6 @@ Route::group(['prefix' => config('nit.site_prefix', ''), 'as' => 'nit.site.', 'm
     Route::permanentRedirect('/contact', '/contact-us');
     Route::permanentRedirect('/hosting', '/shared-hosting');
     Route::permanentRedirect('/pricing', '/web-design');
+
+    Route::fallback([SiteController::class, 'notFound']);
 });

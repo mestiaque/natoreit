@@ -16,6 +16,9 @@ class NitServiceProvider extends ServiceProvider
 
         View::composer('nit::*', function ($view) {
             $view->with('site', Support\Content::settings());
+            $view->with('tx', fn (string $text) => Support\Content::text($text));
+            $view->with('ic', fn (string $icon) => Support\Content::icon($icon));
+            $view->with('theme', Support\Theme::values());
         });
         $this->loadTranslationsFrom(__DIR__ . '/resources/lang', 'nit');
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');

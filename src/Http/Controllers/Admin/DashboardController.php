@@ -20,6 +20,7 @@ class DashboardController extends Controller
     {
         // [label, count, icon, route, ability]
         $cards = [
+            ['Unread messages', \ME\Nit\Models\Message::where('type', 'contact')->whereNull('read_at')->count(), 'fas fa-inbox', 'nit.admin.messages.index', 'site_message_view'],
             ['Plan pages', PlanPage::count(), 'fas fa-server', 'nit.admin.plan-pages.index', 'site_plan_page_view'],
             ['Plans', Plan::count(), 'fas fa-layer-group', 'nit.admin.plan-pages.index', 'site_plan_page_view'],
             ['Web design packages', WebPackage::count(), 'fas fa-palette', 'nit.admin.packages.index', 'site_package_view'],

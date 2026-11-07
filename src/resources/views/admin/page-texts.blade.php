@@ -7,7 +7,7 @@
 @php
     $addresses = ['home' => 'nit.site.home', 'web_design' => 'nit.site.web-design', 'multi_vendor' => 'nit.site.multi-vendor', 'software_solution' => 'nit.site.software-solution',
         'ssl' => 'nit.site.ssl', 'domain' => 'nit.site.domain', 'about' => 'nit.site.about', 'portfolio' => 'nit.site.portfolio', 'reviews' => 'nit.site.reviews',
-        'contact' => 'nit.site.contact', 'coupon' => 'nit.site.coupon'];
+        'contact' => 'nit.site.contact', 'coupon' => 'nit.site.coupon', 'quote' => 'nit.site.quote', 'not_found' => 'nit.site.home'];
     $hasHighlight = array_key_exists('highlight', $defaults);
     $fields = [
         'meta_title'  => ['Browser tab title', 'input', 'Also the title in Google results.'],

@@ -18,10 +18,10 @@
             <div class="row g-4">
                 <div class="col-lg-4">
                     <div class="nit-card nit-card-body rating-summary sticky-aside reveal">
-                        <h2 class="h6 text-muted text-uppercase mb-2" id="ratingTitle">User rating</h2>
+                        <h2 class="h6 text-muted text-uppercase mb-2" id="ratingTitle">{{ $tx('User rating') }}</h2>
                         <div class="d-flex align-items-baseline gap-2">
                             <span class="rating-big">{{ number_format($avg, 1) }}</span>
-                            <span class="stars" aria-label="{{ $avg }} out of 5 stars">@for($i = 1; $i <= 5; $i++)<i class="bi bi-star-fill" aria-hidden="true"></i>@endfor</span>
+                            <span class="stars" aria-label="{{ $avg }} out of 5 stars">@for($i = 1; $i <= 5; $i++)<i class="bi {{ $ic('bi-star-fill') }}" aria-hidden="true"></i>@endfor</span>
                         </div>
                         <p class="small mb-3">Average based on {{ $total }} reviews</p>
                         @foreach($breakdown as $stars => $n)

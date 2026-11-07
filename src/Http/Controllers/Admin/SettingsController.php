@@ -36,16 +36,19 @@ class SettingsController extends Controller
                 'whatsapp' => ['WhatsApp', ['nullable', 'string', 'max:30']],
                 'email'    => ['E-mail', ['required', 'email', 'max:150'], 'email'],
                 'website'  => ['Website (as shown)', ['nullable', 'string', 'max:100']],
-                'skype'    => ['Skype', ['nullable', 'string', 'max:100']],
                 'map_url'  => ['Google Maps link', $url, 'url'],
                 'map_embed'=> ['Google Maps embed link', $url, 'url', 'The src of the map iframe (Share › Embed a map).'],
             ],
             'Links' => [
+                'links.login'         => ['Client login (top bar)', $url, 'url'],
+                'links.register'      => ['Client sign up (top bar)', $url, 'url'],
                 'links.blog'          => ['Blog', $url, 'url'],
                 'links.client_area'   => ['Client area', $url, 'url'],
                 'links.knowledgebase' => ['Knowledge base', $url, 'url'],
                 'links.news'          => ['News / announcements', $url, 'url'],
-                'links.terms'         => ['Terms, refund and privacy', $url, 'url'],
+                'links.terms'         => ['Terms of service', $url, 'url'],
+                'links.privacy'       => ['Privacy policy', $url, 'url'],
+                'links.refund'        => ['Refund policy', $url, 'url'],
                 'links.demo_cpanel'   => ['Demo cPanel', $url, 'url'],
             ],
             'Social profiles' => [
@@ -53,6 +56,11 @@ class SettingsController extends Controller
                 'social.twitter'  => ['X (Twitter)', $url, 'url'],
                 'social.linkedin' => ['LinkedIn', $url, 'url'],
                 'social.youtube'  => ['YouTube', $url, 'url'],
+            ],
+            'Analytics & chat' => [
+                'analytics.ga'    => ['Google Analytics ID', ['nullable', 'string', 'max:30', 'regex:/^G-[A-Z0-9]+$/'], 'text', 'e.g. G-XXXXXXXXXX. Leave empty to turn off.'],
+                'analytics.pixel' => ['Meta (Facebook) Pixel ID', ['nullable', 'string', 'max:30', 'regex:/^\\d+$/'], 'text', 'Numbers only. Leave empty to turn off.'],
+                'analytics.tawk'  => ['Tawk.to chat ID', ['nullable', 'string', 'max:80', 'regex:/^[a-z0-9]+\/[a-z0-9]+$/i'], 'text', 'The part after embed.tawk.to/ in the Tawk.to widget code, e.g. 64ab12…/1h5k…. Leave empty to turn off.'],
             ],
             'Coupon' => [
                 'coupon.code'        => ['Code', ['nullable', 'string', 'max:40']],

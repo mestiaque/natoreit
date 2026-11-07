@@ -19,5 +19,12 @@ class ListItem extends SiteModel
         'domain_links'    => ['Domain links', 'Domain page (with URL)'],
         'payment_methods' => ['Payment methods', 'Footer'],
         'footer_resources'=> ['Footer resources', 'Footer (with URL)'],
+        'software_home'   => ['Software we build', 'Home page (with URL)'],
+        'process'         => ['How we work', 'Home page (title and text, in order)'],
+        'tech'            => ['Technologies', 'Home page moving strip'],
+        'quote_services'  => ['Quote form services', 'Get a quote page'],
+        'quote_budgets'   => ['Quote form budgets', 'Get a quote page'],
+        'stats'           => ['Numbers bar', 'Home page (title: number, text: label)'],
+        'faqs'            => ['FAQ', 'Home and Hosting pages (title: question, text: answer)'],
     ];
 }

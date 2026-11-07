@@ -5,6 +5,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use ME\Nit\Services\DomainChecker;
+use ME\Nit\Models\Message;
 use ME\Nit\Support\Content;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Throwable;
@@ -51,8 +52,8 @@ class SiteController
     public function software(string $key)
     {
         $data = Content::software($key) ?? abort(404);
-        $label = strtoupper($key);
-        $titles = [$label . ' Software', $data['title'] ?? 'Online ' . $label . ' Software', 'Exciting Features of ' . $label];
+        $label = $key === 'custom' ? 'Custom Web Application' : strtoupper($key);
+        $titles = [$key === 'custom' ? $label : $label . ' Software', $data['title'] ?? 'Online ' . $label . ' Software', $key === 'custom' ? 'What we do for you' : 'Exciting Features of ' . $label];
 
         return view('nit::site.software', ['data' => $data, 'titles' => $titles]);
     }
@@ -95,6 +96,107 @@ class SiteController
     public function contact()
     {
         return view('nit::site.contact');
+    }
+
+    /** Contact form: saved for the admin inbox, admins are notified. JSON for the page's script, a redirect without it. */
+    public function sendMessage(Request $request)
+    {
+        $data = $request->validate([
+            'name'    => ['required', 'string', 'min:2', 'max:100'],
+            'email'   => ['required', 'email', 'max:150'],
+            'phone'   => ['nullable', 'string', 'max:30', 'regex:/^(\+?88)?01[3-9]\d{8}$/'],
+            'subject' => ['required', 'in:' . implode(',', array_keys(Message::SUBJECTS))],
+            'message' => ['required', 'string', 'min:10', 'max:2000'],
+        ]);
+
+        return $this->store($request, 'contact', $data, Content::text('Thanks! We got your message and will reply soon.'));
+    }
+
+    public function quote(Request $request)
+    {
+        return view('nit::site.quote', [
+            'services' => Content::list('quote_services'),
+            'budgets'  => Content::list('quote_budgets'),
+            'service'  => (string) $request->query('service'),
+        ]);
+    }
+
+    public function sendQuote(Request $request)
+    {
+        $data = $request->validate([
+            'name'    => ['required', 'string', 'min:2', 'max:100'],
+            'email'   => ['required', 'email', 'max:150'],
+            'phone'   => ['required', 'string', 'max:30', 'regex:/^(\+?88)?01[3-9]\d{8}$/'],
+            'subject' => ['required', 'string', 'max:150', \Illuminate\Validation\Rule::in(Content::list('quote_services'))],
+            'budget'  => ['nullable', 'string', 'max:150'],
+            'message' => ['required', 'string', 'min:10', 'max:2000'],
+        ]);
+        if (filled($data['budget'] ?? null)) {
+            $data['message'] = 'Budget: ' . $data['budget'] . "\n\n" . $data['message'];
+        }
+        unset($data['budget']);
+
+        return $this->store($request, 'quote', $data, Content::text('Thanks! We got your request and will contact you soon.'));
+    }
+
+    public function notFound()
+    {
+        return response()->view('nit::site.not-found', [], 404);
+    }
+
+    public function subscribe(Request $request)
+    {
+        $data = $request->validate(['email' => ['required', 'email', 'max:150']]);
+        if (Message::where('type', 'newsletter')->where('email', $data['email'])->exists()) {
+            return $this->done($request, Content::text('You are already subscribed — thank you!'));
+        }
+
+        return $this->store($request, 'newsletter', $data, Content::text('Subscribed! We will send you hosting deals and domain offers.'));
+    }
+
+    private function store(Request $request, string $type, array $data, string $thanks)
+    {
+        // Bots fill the hidden "website" field; pretend it worked
+        if ($request->filled('website')) {
+            return $this->done($request, $thanks);
+        }
+
+        $message = Message::create($data + ['type' => $type, 'ip' => $request->ip(), 'user_agent' => substr((string) $request->userAgent(), 0, 255)]);
+
+        try {
+            \Nit\Master\Support\Notify::superAdmins(
+                $type !== 'newsletter' ? Message::TYPES[$type] . ': ' . $message->name : 'New newsletter sign-up',
+                $type !== 'newsletter' ? (Message::SUBJECTS[$message->subject] ?? $message->subject) . ' — ' . \Illuminate\Support\Str::limit($message->message, 120) : $message->email,
+                $type !== 'newsletter' ? 'fas fa-envelope' : 'fas fa-paper-plane',
+                route('nit.admin.messages.edit', $message->id),
+            );
+        } catch (Throwable $e) {
+            Log::warning('Message notification failed: ' . $e->getMessage());
+        }
+
+        return $this->done($request, $thanks);
+    }
+
+    private function done(Request $request, string $text)
+    {
+        return $request->expectsJson()
+            ? response()->json(['message' => $text])
+            : back()->with('form_success', $text);
+    }
+
+    /** sitemap.xml: every public page, plan pages included. */
+    public function sitemap()
+    {
+        $urls = [route('nit.site.home')];
+        foreach (array_keys(Content::planPages()) as $slug) {
+            $urls[] = route('nit.site.plans', $slug);
+        }
+        foreach (['web-design', 'multi-vendor', 'erp', 'custom', 'pos', 'crm', 'quote', 'software-solution', 'ssl', 'domain', 'about', 'portfolio', 'reviews', 'contact', 'coupon'] as $name) {
+            $urls[] = route('nit.site.' . $name);
+        }
+
+        return response()->view('nit::sitemap', ['urls' => $urls, 'updated' => now()->toAtomString()])
+            ->header('Content-Type', 'application/xml; charset=utf-8');
     }
 
     public function coupon()

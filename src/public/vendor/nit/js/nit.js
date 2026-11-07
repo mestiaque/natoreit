@@ -110,29 +110,6 @@
         });
     }
 
-    /* Monthly / yearly price toggle -------------------------------------- */
-    function initBillingToggles() {
-        $all('[data-billing-toggle]').forEach(function (toggle) {
-            var scope = doc.querySelector(toggle.getAttribute('data-billing-toggle')) || doc;
-
-            toggle.addEventListener('change', function (e) {
-                var period = e.target.value === 'yearly' ? 'yearly' : 'monthly';
-                var key = period === 'yearly' ? 'priceYearly' : 'priceMonthly';
-
-                $all('[data-price-monthly]', scope).forEach(function (el) {
-                    el.classList.add('is-updating');
-                    setTimeout(function () {
-                        el.textContent = el.dataset[key];
-                        el.classList.remove('is-updating');
-                    }, wait(140));
-                });
-                $all('[data-period-label]', scope).forEach(function (el) {
-                    el.textContent = el.dataset[period];
-                });
-            });
-        });
-    }
-
     /* Filters (portfolio, products) -------------------------------------- */
     function initFilters() {
         $all('[data-filter-group]').forEach(function (bar) {
@@ -296,116 +273,26 @@
         });
     }
 
-    /* Product gallery ---------------------------------------------------- */
-    function initGalleries() {
-        $all('[data-gallery]').forEach(function (gallery) {
-            var slides = $all('[data-gallery-slide]', gallery);
-            var thumbs = $all('[data-gallery-thumb]', gallery);
-
-            function show(index) {
-                slides.forEach(function (slide, i) {
-                    var on = i === index;
-                    slide.classList.toggle('is-active', on);
-                    slide.inert = !on;
-                    slide.setAttribute('aria-hidden', on ? 'false' : 'true');
-                });
-                thumbs.forEach(function (thumb, i) {
-                    thumb.setAttribute('aria-current', i === index ? 'true' : 'false');
-                });
-            }
-
-            thumbs.forEach(function (thumb, i) {
-                thumb.addEventListener('click', function () { show(i); });
-            });
-            gallery.addEventListener('nit:gallery-show', function (e) { show(e.detail.index); });
-            show(0);
-        });
-    }
-
-    /* Lightbox (Bootstrap modal handles focus trap, Escape, scroll lock) -- */
-    function initLightbox() {
-        var modalEl = doc.getElementById('nitLightbox');
-        if (!modalEl || !window.bootstrap) return;
-
-        var modal = bootstrap.Modal.getOrCreateInstance(modalEl);
-        var stage = modalEl.querySelector('[data-lightbox-stage]');
-        var title = modalEl.querySelector('[data-lightbox-title]');
-        var caption = modalEl.querySelector('[data-lightbox-caption]');
-        var counter = modalEl.querySelector('[data-lightbox-counter]');
-        var prev = modalEl.querySelector('[data-lightbox-prev]');
-        var next = modalEl.querySelector('[data-lightbox-next]');
-        var group = [];
-        var index = 0;
-
-        function render(animate) {
-            var trigger = group[index];
-            var source = trigger.querySelector('[data-lightbox-source]');
-
-            stage.replaceChildren(source.cloneNode(true));
-            title.textContent = trigger.getAttribute('data-lightbox-title') || '';
-            caption.textContent = trigger.getAttribute('data-lightbox-caption') || '';
-            caption.hidden = !caption.textContent;
-            counter.textContent = group.length > 1 ? (index + 1) + ' of ' + group.length : '';
-            prev.hidden = next.hidden = group.length < 2;
-
-            if (animate) {
-                stage.classList.remove('is-swapping');
-                void stage.offsetWidth;
-                stage.classList.add('is-swapping');
-            }
-        }
-
-        function step(delta) {
-            if (group.length < 2) return;
-            index = (index + delta + group.length) % group.length;
-            render(true);
-        }
-
-        doc.addEventListener('click', function (e) {
-            var trigger = e.target.closest('[data-lightbox]');
-            if (!trigger) return;
-
-            var name = trigger.getAttribute('data-lightbox');
-            group = $all('[data-lightbox="' + name + '"]').filter(function (t) {
-                return !t.closest('[hidden]'); // respect active filters
-            });
-            index = Math.max(0, group.indexOf(trigger));
-            render(false);
-            modal.show(trigger);
-        });
-
-        prev.addEventListener('click', function () { step(-1); });
-        next.addEventListener('click', function () { step(1); });
-
-        modalEl.addEventListener('keydown', function (e) {
-            if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
-            if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
-        });
-
-        // Return focus to the item that is currently shown, keeping galleries in sync
-        modalEl.addEventListener('hidden.bs.modal', function () {
-            var current = group[index];
-            if (!current) return;
-            var gallery = current.closest('[data-gallery]');
-            if (gallery) {
-                var slides = $all('[data-gallery-slide]', gallery);
-                var slideIndex = slides.indexOf(current.closest('[data-gallery-slide]'));
-                gallery.dispatchEvent(new CustomEvent('nit:gallery-show', { detail: { index: slideIndex } }));
-            }
-            current.focus();
-        });
-    }
-
-    /* Demo forms: client-side validation only, never submitted ----------- */
-    function initDemoForms() {
-        $all('form[data-demo-form]').forEach(function (form) {
+    /* Contact + newsletter forms: validated here, sent with fetch (plain POST without JS) */
+    function initAjaxForms() {
+        $all('form[data-ajax-form]').forEach(function (form) {
             var success = form.querySelector('[data-form-success]');
+            var error = form.querySelector('[data-form-error]');
+            var button = form.querySelector('[type="submit"]');
+            var busy = false;
+
+            function show(el, text) {
+                if (!el) return;
+                var slot = el.querySelector('[data-form-message]') || el;
+                slot.textContent = text;
+                el.hidden = false;
+            }
 
             form.addEventListener('submit', function (e) {
                 e.preventDefault();
-                e.stopPropagation();
-
+                if (busy) return;
                 if (success) success.hidden = true;
+                if (error) error.hidden = true;
 
                 if (!form.checkValidity()) {
                     form.classList.add('was-validated');
@@ -414,35 +301,42 @@
                     return;
                 }
 
-                var nameField = form.querySelector('[name="name"]');
-                var firstName = nameField ? nameField.value.trim().split(/\s+/)[0] : '';
+                busy = true;
+                if (button) button.setAttribute('aria-busy', 'true');
+                if (button) button.disabled = true;
 
-                form.reset();
-                form.classList.remove('was-validated');
-
-                if (success) {
-                    var nameSlot = success.querySelector('[data-success-name]');
-                    if (nameSlot) nameSlot.textContent = firstName ? ', ' + firstName : '';
-                    success.hidden = false;
-                    success.focus();
-                }
+                fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+                    credentials: 'same-origin'
+                })
+                    .then(function (res) {
+                        return res.json().catch(function () { return {}; }).then(function (body) { return { ok: res.ok, status: res.status, body: body }; });
+                    })
+                    .then(function (r) {
+                        if (r.ok) {
+                            form.reset();
+                            form.classList.remove('was-validated');
+                            show(success, r.body.message || 'Thank you!');
+                            if (success) success.focus();
+                            return;
+                        }
+                        var firstError = r.body.errors && Object.values(r.body.errors)[0];
+                        show(error, firstError ? firstError[0]
+                            : r.status === 429 ? 'Too many tries — please wait a minute and send again.'
+                            : r.status === 419 ? 'The page expired — please reload it and send again.'
+                            : 'Sorry, it could not be sent. Please call or WhatsApp us.');
+                    })
+                    .catch(function () {
+                        show(error, 'Network problem — please check your connection and try again.');
+                    })
+                    .finally(function () {
+                        busy = false;
+                        if (button) { button.disabled = false; button.removeAttribute('aria-busy'); }
+                    });
             });
         });
-
-        // Pre-select the product when the demo modal is opened from a product page
-        var demoModal = doc.getElementById('demoModal');
-        if (demoModal) {
-            demoModal.addEventListener('show.bs.modal', function (e) {
-                var form = demoModal.querySelector('form');
-                var select = demoModal.querySelector('select[name="product"]');
-                var success = demoModal.querySelector('[data-form-success]');
-                var product = e.relatedTarget && e.relatedTarget.getAttribute('data-product');
-
-                if (success) success.hidden = true;
-                if (form) form.classList.remove('was-validated');
-                if (select && product) select.value = product;
-            });
-        }
     }
 
     /* Domain search (live, via the package's /domain/check endpoint) ----- */
@@ -622,20 +516,6 @@
         });
     }
 
-    /* Client area modal: open on the requested tab -------------------------- */
-    function initClientModal() {
-        var modalEl = doc.getElementById('clientModal');
-        if (!modalEl || !window.bootstrap) return;
-
-        modalEl.addEventListener('show.bs.modal', function (e) {
-            var tab = e.relatedTarget && e.relatedTarget.getAttribute('data-client-tab');
-            var button = tab && doc.getElementById('client-tab-' + tab);
-            if (button) bootstrap.Tab.getOrCreateInstance(button).show();
-            $all('[data-form-success]', modalEl).forEach(function (s) { s.hidden = true; });
-            $all('form', modalEl).forEach(function (f) { f.classList.remove('was-validated'); });
-        });
-    }
-
     /* Copy to clipboard (coupon code) -------------------------------------- */
     function initCopy() {
         $all('[data-copy]').forEach(function (button) {
@@ -674,24 +554,110 @@
         });
     }
 
+    function initScrollProgress() {
+        var bar = document.querySelector('[data-scroll-progress]');
+        if (!bar) return;
+        var update = function () {
+            var max = document.documentElement.scrollHeight - window.innerHeight;
+            bar.style.transform = 'scaleX(' + (max > 0 ? window.scrollY / max : 0) + ')';
+        };
+        window.addEventListener('scroll', update, { passive: true });
+        update();
+    }
+
+    function initThemeToggle() {
+        var button = document.querySelector('[data-theme-toggle]');
+        if (!button) return;
+        var root = document.documentElement;
+        var paint = function () {
+            button.querySelector('i').className = root.getAttribute('data-bs-theme') === 'dark' ? 'bi bi-sun' : 'bi bi-moon-stars';
+        };
+        button.addEventListener('click', function () {
+            var dark = root.getAttribute('data-bs-theme') === 'dark';
+            if (dark) root.removeAttribute('data-bs-theme'); else root.setAttribute('data-bs-theme', 'dark');
+            try { localStorage.setItem('nit-theme', dark ? 'light' : 'dark'); } catch (e) {}
+            paint();
+        });
+        paint();
+    }
+
+    // "1,000+" counts up from 0 once it is on screen; other texts stay as they are
+    function initCountUp() {
+        var items = document.querySelectorAll('[data-count]');
+        if (!document.body.hasAttribute('data-count-up') || !items.length || !('IntersectionObserver' in window)
+            || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (!entry.isIntersecting) return;
+                observer.unobserve(entry.target);
+                var el = entry.target, text = el.textContent.trim();
+                var match = text.match(/^([\d,]+(?:\.\d+)?)(.*)$/);
+                if (!match) return;
+                var target = parseFloat(match[1].replace(/,/g, '')), decimals = (match[1].split('.')[1] || '').length, start = null;
+                var step = function (now) {
+                    start = start || now;
+                    var t = Math.min((now - start) / 1100, 1), eased = 1 - Math.pow(1 - t, 3);
+                    el.textContent = t === 1 ? text : (target * eased).toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) + match[2];
+                    if (t < 1) requestAnimationFrame(step);
+                };
+                requestAnimationFrame(step);
+            });
+        }, { threshold: 0.4 });
+        items.forEach(function (item) { observer.observe(item); });
+    }
+
+    // Prices are written in USD; with a rate set in the admin they can be shown in taka
+    function initCurrency() {
+        var rate = parseFloat(document.body.getAttribute('data-bdt-rate'));
+        var button = document.querySelector('[data-currency-toggle]');
+        var main = document.getElementById('main');
+        if (!rate || !button || !main) return;
+        var originals = new WeakMap(), price = /\$\s?(\d[\d,]*(?:\.\d+)?)/g, current = document.body.getAttribute('data-currency-default');
+        try { current = localStorage.getItem('nit-currency') || current; } catch (e) {}
+        var observer;
+
+        function apply() {
+            observer.disconnect();
+            var walker = document.createTreeWalker(main, NodeFilter.SHOW_TEXT), node;
+            while ((node = walker.nextNode())) {
+                var text = originals.has(node) ? originals.get(node) : node.nodeValue;
+                if (text.indexOf('$') === -1) continue;
+                originals.set(node, text);
+                node.nodeValue = current !== 'bdt' ? text : text.replace(price, function (match, amount) {
+                    return '৳' + Math.round(parseFloat(amount.replace(/,/g, '')) * rate).toLocaleString('en-US');
+                });
+            }
+            button.textContent = current === 'bdt' ? '৳ BDT' : '$ USD';
+            observer.observe(main, { childList: true, subtree: true });
+        }
+
+        observer = new MutationObserver(apply);
+        button.addEventListener('click', function () {
+            current = current === 'bdt' ? 'usd' : 'bdt';
+            try { localStorage.setItem('nit-currency', current); } catch (e) {}
+            apply();
+        });
+        apply();
+    }
+
     function init() {
         window.NIT_READY = true;
         initReveal();
         initScrollState();
         initMobileNav();
-        initBillingToggles();
         initPagers();
         initFilters();
         initSkeletons();
         initMoreToggles();
         initFooterGroups();
-        initGalleries();
-        initLightbox();
-        initDemoForms();
+        initAjaxForms();
         initDomainSearch();
-        initClientModal();
         initCopy();
         initRipple();
+        initScrollProgress();
+        initThemeToggle();
+        initCountUp();
+        initCurrency();
     }
 
     if (doc.readyState === 'loading') {

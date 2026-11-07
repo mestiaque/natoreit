@@ -29,6 +29,17 @@ class PlanController extends ResourceController
 
     private ?PlanPage $page = null;
 
+    // Plans always belong to a page: without ?page= go to the list of pages
+    public function index(Request $request)
+    {
+        return $request->filled('page') ? parent::index($request) : redirect()->route('nit.admin.plan-pages.index');
+    }
+
+    public function create(Request $request)
+    {
+        return $request->filled('page') ? parent::create($request) : redirect()->route('nit.admin.plan-pages.index');
+    }
+
     private function page(?Model $record = null): PlanPage
     {
         // The plan being edited, else ?page= (list, new plan) or the submitted page

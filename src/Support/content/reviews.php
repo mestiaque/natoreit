@@ -12,14 +12,14 @@ return [
         'title' => 'web design',
         'date' => 'april 28, 2018',
         'rating' => 5,
-        'text' => 'The best web hosting and The best web hosting and design service in uttara, Dhaka. service in uttara, Dhaka.',
+        'text' => 'The best web hosting and design service in Uttara, Dhaka.',
         'author' => 'Khalid Hasan Akash',
     ],
     [
         'title' => 'Support Review',
         'date' => 'December 13, 2017',
         'rating' => 5,
-        'text' => 'There Support team is so good. Also Price is great. Thanks Natore-IT.',
+        'text' => 'Their support team is so good. Also Price is great. Thanks Natore-IT.',
         'author' => 'Shahin Alam',
     ],
     [
@@ -33,7 +33,7 @@ return [
         'title' => 'Domain Sell Service',
         'date' => 'November, 30 ,2019',
         'rating' => 5,
-        'text' => 'Natore-IT is the best domain & hosting company in Bangladesh. I am very plessed to purchase them domain & hosting . Their are best service.',
+        'text' => 'Natore-IT is the best domain & hosting company in Bangladesh. I am very pleased to purchase them domain & hosting . Their are best service.',
         'author' => 'Md NaSiR SiKDeR',
     ],
     [
@@ -75,7 +75,7 @@ return [
         'title' => 'best IT solution',
         'date' => 'March 22, 2018',
         'rating' => 5,
-        'text' => 'Natore-it is best IT solution Palash - ‹ - 1 - 2',
+        'text' => 'Natore-IT is the best IT solution.',
         'author' => '- ›',
     ],
 ];

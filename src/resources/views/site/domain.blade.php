@@ -8,7 +8,7 @@
     <section class="hero" data-hero-end>
         <div class="container" style="max-width: 920px">
             <div class="text-center">
-                <span class="hero-badge mb-3 enter"><i class="bi bi-globe2" aria-hidden="true"></i> {{ $pg['eyebrow'] }}</span>
+                <span class="hero-badge mb-3 enter"><i class="bi {{ $ic('bi-globe2') }}" aria-hidden="true"></i> {{ $pg['eyebrow'] }}</span>
                 <h1 class="mb-3 enter enter-1">{{ $pg['title'] }} @if($pg['highlight'] ?? '')<span class="text-gradient">{{ $pg['highlight'] }}</span>@endif</h1>
                 <p class="lead mx-auto mb-4 enter enter-2">{{ $pg['lead'] }}</p>
             </div>
@@ -36,16 +36,16 @@
             <div class="row g-4">
                 <div class="col-lg-6 reveal">
                     <div class="nit-card nit-card-body h-100">
-                        <span class="icon-box mb-2" aria-hidden="true"><i class="bi bi-globe"></i></span>
-                        <h2 class="h4">Domain registration</h2>
-                        <p class="mb-0">Choose your domain name as per your business requirements and take your business online. The perfect domain name attracts visitors. Find popular top-level domains at affordable prices. Start your website with Natore-IT today.</p>
+                        <span class="icon-box mb-2" aria-hidden="true"><i class="bi {{ $ic('bi-globe') }}"></i></span>
+                        <h2 class="h4">{{ $tx('Domain registration') }}</h2>
+                        <p class="mb-0">{{ $tx('Choose your domain name as per your business requirements and take your business online. The perfect domain name attracts visitors. Find popular top-level domains at affordable prices. Start your website with Natore-IT today.') }}</p>
                     </div>
                 </div>
                 <div class="col-lg-6 reveal">
                     <div class="nit-card nit-card-body h-100">
-                        <span class="icon-box mb-2" aria-hidden="true"><i class="bi bi-people"></i></span>
-                        <h2 class="h4">Domain reseller</h2>
-                        <p class="mb-0">A domain reseller is a company or person that purchases domains from a domain registrar or another domain reseller for the benefit of their clients. Sign up as a Natore-IT domain reseller and sell domains under your own brand.</p>
+                        <span class="icon-box mb-2" aria-hidden="true"><i class="bi {{ $ic('bi-people') }}"></i></span>
+                        <h2 class="h4">{{ $tx('Domain reseller') }}</h2>
+                        <p class="mb-0">{{ $tx('A domain reseller is a company or person that purchases domains from a domain registrar or another domain reseller for the benefit of their clients. Sign up as a Natore-IT domain reseller and sell domains under your own brand.') }}</p>
                     </div>
                 </div>
             </div>

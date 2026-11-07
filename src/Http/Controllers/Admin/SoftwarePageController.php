@@ -7,7 +7,7 @@ use ME\Nit\Models\SoftwarePage;
 use ME\Nit\Support\Content;
 
 /**
- * The POS, CRM and multi-vendor feature pages (edit only; the pages are fixed).
+ * The ERP, custom application, POS, CRM and multi-vendor feature pages (edit only; the pages are fixed).
  */
 class SoftwarePageController extends ResourceController
 {
@@ -25,7 +25,7 @@ class SoftwarePageController extends ResourceController
     protected array $sortable = ['title'];
     protected string $defaultSort = 'id';
 
-    private const ADDRESSES = ['pos' => '/pos-software', 'crm' => '/crm-software', 'multi_vendor' => '/multi-vendor-ecommerce'];
+    private const ADDRESSES = ['erp' => '/erp-software', 'custom' => '/custom-web-application', 'pos' => '/pos-software', 'crm' => '/crm-software', 'multi_vendor' => '/multi-vendor-ecommerce'];
 
     protected function abilities(): array
     {

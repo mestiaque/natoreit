@@ -44,6 +44,7 @@ class ImportSiteContent extends Command
             $this->import(Review::class, fn () => $this->reviews());
             $this->importLists();
             $this->import(SoftwarePage::class, fn () => $this->software());
+            $this->softwareExtra();
         });
         Content::flush();
 
@@ -185,7 +186,7 @@ class ImportSiteContent extends Command
             'why_choose'       => array_map(fn ($r) => ['icon' => $r[0], 'title' => $r[1], 'text' => $r[2]], SiteData::whyChooseUs()),
             'featured_hosting' => array_map(fn ($r, $slug) => ['icon' => $r[0], 'title' => $r[1], 'text' => $r[2] . "\n" . implode("\n", $r[3]), 'url' => '/' . $slug],
                 SiteData::featuredHosting(), ['shared-hosting', 'reseller-hosting', 'master-reseller-hosting']),
-            'offer_tabs'       => array_values(array_map(fn ($t) => ['icon' => $t[0], 'title' => $t[1], 'text' => $t[2] . "\n" . implode("\n", $t[5]), 'url' => '/' . $t[3]], SiteData::offerTabs())),
+            'offer_tabs'       => array_map(fn ($t) => ['icon' => $t[0], 'title' => $t[1], 'text' => $t[2] . "\n" . implode("\n", $t[4]), 'url' => '/' . $t[3]], SiteData::offerTabs()),
             'footer_resources' => [
                 ['title' => 'Outlook configuration step by step', 'url' => $links['knowledgebase']],
                 ['title' => '3 Reasons Websites Are Vital for Small Businesses', 'url' => $links['news']],
@@ -196,6 +197,13 @@ class ImportSiteContent extends Command
             'software'         => array_map(fn ($r) => ['icon' => $r[0], 'title' => $r[1]], Catalog::softwareSolutions()),
             'domain_links'     => array_map(fn ($r) => ['title' => $r[0], 'url' => $r[1], 'icon' => $r[2]], Catalog::domainLinks()),
             'payment_methods'  => array_map(fn ($r) => ['title' => $r], SiteData::paymentMethods()),
+            'software_home'    => array_map(fn ($r) => ['icon' => $r[0], 'title' => $r[1], 'text' => $r[2], 'url' => '/' . $r[3]], SiteData::softwareHome()),
+            'process'          => array_map(fn ($r) => ['icon' => $r[0], 'title' => $r[1], 'text' => $r[2]], SiteData::process()),
+            'tech'             => array_map(fn ($r) => ['title' => $r], SiteData::tech()),
+            'quote_services'   => array_map(fn ($r) => ['title' => $r], SiteData::quoteServices()),
+            'quote_budgets'    => array_map(fn ($r) => ['title' => $r], SiteData::quoteBudgets()),
+            'stats'            => array_map(fn ($r) => ['icon' => $r[0], 'title' => $r[1], 'text' => $r[2]], SiteData::stats()),
+            'faqs'             => array_map(fn ($r) => ['title' => $r[0], 'text' => $r[1]], SiteData::faqs()),
         ];
         $done = [];
         foreach ($rows as $list => $items) {
@@ -209,6 +217,15 @@ class ImportSiteContent extends Command
         }
 
         return $done;
+    }
+
+    /** Pages added after the first import; existing rows are left alone. */
+    private function softwareExtra(): void
+    {
+        $data = Catalog::content('software');
+        foreach (['erp', 'custom'] as $key) {
+            SoftwarePage::firstOrCreate(['key' => $key], ['title' => $data[$key]['title'], 'intro' => $data[$key]['intro'], 'sections' => $data[$key]['sections']]);
+        }
     }
 
     private function software(): void

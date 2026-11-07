@@ -2,8 +2,8 @@
     {{-- 3. Why choose us --}}
     <section class="section bg-soft" aria-labelledby="whyTitle">
         <div class="container">
-            <x-nit::section-heading eyebrow="Why choose us" title="Hosting you can rely on" :center="true" id="whyTitle">
-                Everything that keeps your website fast, safe and online — included as standard.
+            <x-nit::section-heading :eyebrow="$tx('Why choose us')" :title="$tx('Hosting you can rely on')" :center="true" id="whyTitle">
+                {{ $tx('Everything that keeps your website fast, safe and online — included as standard.') }}
             </x-nit::section-heading>
             <div class="row g-4" data-stagger="60">
                 @foreach($why as [$icon, $title, $text])

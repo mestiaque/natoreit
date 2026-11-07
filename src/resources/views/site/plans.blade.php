@@ -21,13 +21,13 @@
     <section class="section" aria-labelledby="plansTitle">
         <div class="container">
             <x-nit::section-heading :title="$page['heading']" :center="true" id="plansTitle">
-                Pick a plan below — every order is completed securely on our billing system.
+                {{ $tx('Pick a plan below — every order is completed securely on our billing system.') }}
             </x-nit::section-heading>
             <div class="row g-4 justify-content-center pt-3" data-stagger="70">
                 @foreach($page['plans'] as $i => $plan)
                     <div class="{{ $col }} reveal">
                         <article class="nit-card card-hover package-card plan-card {{ $plan['featured'] ? 'is-featured' : '' }}">
-                            @if($plan['featured'])<span class="pricing-badge"><i class="bi bi-star-fill me-1" aria-hidden="true"></i>Best value</span>@endif
+                            @if($plan['featured'])<span class="pricing-badge"><i class="bi {{ $ic('bi-star-fill') }} me-1" aria-hidden="true"></i>{{ $tx('Best value') }}</span>@endif
                             <header class="package-head">
                                 <div class="d-flex align-items-center gap-2">
                                     <span class="package-icon" aria-hidden="true"><i class="bi {{ $page['icon'] }}"></i></span>
@@ -36,7 +36,7 @@
                                 <div class="package-price">
                                     <span class="price">{{ $money($plan['price']) }}</span>
                                     <span class="package-meta">
-                                        <del><span class="visually-hidden">Regular price </span>{{ $money($plan['regular']) }}</del>
+                                        <del><span class="visually-hidden">{{ $tx('Regular price') }} </span>{{ $money($plan['regular']) }}</del>
                                         <small>{{ $periods[$plan['period']] ?? $plan['period'] }}</small>
                                     </span>
                                 </div>
@@ -50,7 +50,7 @@
                                 </ul>
                                 <a class="btn {{ $plan['featured'] ? 'btn-primary' : 'btn-outline-primary' }} w-100" href="{{ $plan['order'] }}"
                                    aria-label="Buy the {{ $plan['name'] }} {{ $page['title'] }} plan">
-                                    Buy now <i class="bi bi-arrow-right icon-shift" aria-hidden="true"></i>
+                                    {{ $tx('Buy now') }} <i class="bi {{ $ic('bi-arrow-right') }} icon-shift" aria-hidden="true"></i>
                                 </a>
                             </div>
                         </article>
@@ -64,7 +64,7 @@
         <div class="container">
             <x-nit::section-heading :title="$page['title'] . ' — all features'" :center="true" id="compareTitle" />
             <button type="button" class="btn btn-outline-primary w-100 d-md-none compare-toggle" data-more-toggle="#compareWrap" aria-expanded="false" aria-controls="compareWrap">
-                <span data-more-label>Compare all {{ count($page['rows']) }} features</span> <i class="bi bi-chevron-down" aria-hidden="true"></i>
+                <span data-more-label>Compare all {{ count($page['rows']) }} features</span> <i class="bi {{ $ic('bi-chevron-down') }}" aria-hidden="true"></i>
             </button>
             <div class="nit-card overflow-hidden reveal compare-wrap" id="compareWrap" data-more-list>
                 <div class="table-responsive">
@@ -72,7 +72,7 @@
                         <caption class="visually-hidden">Feature comparison of {{ $page['title'] }} plans</caption>
                         <thead>
                             <tr>
-                                <th scope="col" class="text-start" style="min-width: 200px">Feature</th>
+                                <th scope="col" class="text-start" style="min-width: 200px">{{ $tx('Feature') }}</th>
                                 @foreach($page['plans'] as $plan)
                                     <th scope="col" class="{{ $plan['featured'] ? 'is-featured-col' : '' }}" style="min-width: 120px">
                                         {{ $plan['name'] }}<span class="d-block small text-muted fw-semibold">{{ $money($plan['price']) }}{{ $periods[$plan['period']] ?? '' }}</span>
@@ -93,7 +93,7 @@
                                 <th scope="row" class="text-start"></th>
                                 @foreach($page['plans'] as $plan)
                                     <td class="{{ $plan['featured'] ? 'is-featured-col' : '' }}">
-                                        <a class="btn btn-sm {{ $plan['featured'] ? 'btn-primary' : 'btn-outline-primary' }}" href="{{ $plan['order'] }}">Buy now</a>
+                                        <a class="btn btn-sm {{ $plan['featured'] ? 'btn-primary' : 'btn-outline-primary' }}" href="{{ $plan['order'] }}">{{ $tx('Buy now') }}</a>
                                     </td>
                                 @endforeach
                             </tr>
@@ -126,6 +126,8 @@
             </div>
         </section>
     @endif
+
+    @include('nit::partials.faq-section', ['soft' => true])
 
     @include('nit::partials.cta')
 @endsection

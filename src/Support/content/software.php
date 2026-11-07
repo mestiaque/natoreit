@@ -1,6 +1,30 @@
 <?php
-// Software pages from natoreit.com (pos-software, crm-software, multi-vendor-ecommerce)
+// Software pages (erp-software, custom-web-application, pos-software, crm-software, multi-vendor-ecommerce)
 return [
+    'erp' => [
+        'title' => 'ERP Software for Your Business',
+        'intro' => 'Our ERP software brings accounts, inventory, sales, purchases and staff into one system, so every department works from the same data and management can see the whole business in one place. We choose the modules your business needs and set them up around your process.',
+        'sections' => [
+            ['title' => 'Accounts & Finance', 'items' => ['Income and expense', 'Ledgers and vouchers', 'Bank and cash book', 'Financial reports']],
+            ['title' => 'Inventory', 'items' => ['Products and categories', 'Stock in and out', 'Warehouse transfer', 'Low stock alerts']],
+            ['title' => 'Sales', 'items' => ['Quotations and orders', 'Invoices', 'Customer dues', 'Sales returns']],
+            ['title' => 'Purchases', 'items' => ['Purchase orders', 'Supplier records', 'Supplier dues', 'Purchase returns']],
+            ['title' => 'HR & Payroll', 'items' => ['Employee records', 'Attendance and leave', 'Salary sheets', 'Advances and loans']],
+            ['title' => 'Management', 'items' => ['Dashboard', 'Department and branch reports', 'User roles and permissions', 'Activity history']],
+        ],
+    ],
+    'custom' => [
+        'title' => 'Software Built Around Your Business',
+        'intro' => 'When ready-made software does not fit, we build a web application around the way you work. Tell us your process, and our team will plan, design, develop and launch the system, then host and support it for you.',
+        'sections' => [
+            ['title' => 'What we build', 'items' => ['Business management systems', 'Customer and vendor portals', 'Booking and order systems', 'Dashboards and reports']],
+            ['title' => 'Integrations', 'items' => ['Payment gateways', 'SMS and email', 'Courier services', 'Third-party APIs']],
+            ['title' => 'Planning', 'items' => ['Understanding your process', 'Features and scope', 'Timeline and price', 'Design approval']],
+            ['title' => 'Development', 'items' => ['Web application development', 'Mobile-friendly screens', 'User roles and permissions', 'Testing with your team']],
+            ['title' => 'Launch', 'items' => ['Domain and hosting setup', 'Data migration', 'Team training', 'SSL and backups']],
+            ['title' => 'After delivery', 'items' => ['Bug fixes', 'New features', 'Server monitoring', 'Technical support']],
+        ],
+    ],
     'pos' => [
         'intro' => 'Introducing POS – our state-of-the-art POS system powered by PHP and Laravel, designed to streamline your daily business operations. This all-inclusive POS software is perfect for managing your retail shop or store. It ensures efficient inventory control, sales and purchases tracking, as well as comprehensive customer and supplier data management. Furthermore, this POS system simplifies invoice handling and expedites payment transactions.',
         'sections' => [
@@ -297,7 +321,7 @@ return [
         ],
         'groups' => [
             [
-                'title' => 'Our Multi Vendor Ecommerce All Fetured For You!',
+                'title' => 'Our Multi Vendor Ecommerce All Featured For You!',
                 'items' => [
                     'Our team will ensure to combine the technical process and creative process together to develop a great website for your business which will be visually appealing and professional giving significant results while meeting all your expectations.',
                     'One of the most important aspects during the whole process will be to manage the timeline schedule and to ensure that the agreed timelines are followed in every phase of the project. Details of key activities and deliverables of every phase will be shared with Your Company to ensure it matches the requirements. Based on approval, the next phase of the project will begin.',
@@ -670,7 +694,7 @@ return [
                 'heading' => true,
             ],
             [
-                'title' => 'Our Deals Fetured',
+                'title' => 'Our Deals Featured',
                 'items' => [],
                 'heading' => true,
             ],

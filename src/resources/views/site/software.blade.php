@@ -27,5 +27,5 @@
         </div>
     </section>
 
-    @include('nit::partials.cta', ['ctaHeading' => 'Have any questions?', 'ctaText' => 'Call us on ' . $site['phone'] . ' or send a message — we are here to help.', 'ctaUrl' => 'tel:' . preg_replace('/[^+\d]/', '', $site['phone']), 'ctaLabel' => 'Call ' . $site['phone']])
+    @include('nit::partials.cta', ['ctaHeading' => $tx('Have any questions?'), 'ctaText' => $tx('Call us on ') . $site['phone'] . ' or send a message — we are here to help.', 'ctaUrl' => route('nit.site.quote', ['service' => $titles[0]]), 'ctaLabel' => $tx('Request a demo')])
 @endsection

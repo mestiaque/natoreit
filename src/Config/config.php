@@ -23,14 +23,13 @@ return [
     // Public contact details shown across the website (from natoreit.com)
     'site' => [
         'name'    => 'Natore IT',
-        'tagline' => 'Business software, websites and hosting from Natore, Bangladesh.',
+        'tagline' => 'Domain, hosting, websites, ERP, POS and custom web applications from Bangladesh.',
         'phone'    => '+880 1628-092045',
         'phones'   => ['+880 1628-092045', '+880 1738-611938'],
         'support'  => '+880 1648-471607',
         'whatsapp' => '+880 1738-611938',
         'email'    => 'info@natoreit.com',
         'website'  => 'www.natoreit.com',
-        'skype'    => 'raihan.ali27',
         'address'  => 'House 7, Road 14/C, Sector 4, Uttara, Dhaka-1230, Bangladesh',
         'hours'   => 'Sat–Thu, 9:00 AM – 6:00 PM',
         'since'   => 2015,
@@ -39,10 +38,14 @@ return [
         // Pages hosted on the WHMCS billing system
         'links' => [
             'blog'          => 'https://blog.natoreit.com',
+            'login'         => 'https://billing.natoreit.com/login',
+            'register'      => 'https://billing.natoreit.com/register.php',
             'knowledgebase' => 'https://billing.natoreit.com/knowledgebase.php',
             'news'          => 'https://billing.natoreit.com/announcements.php',
             'client_area'   => 'https://billing.natoreit.com/clientarea.php',
             'terms'         => 'https://billing.natoreit.com/index.php?rp=/knowledgebase',
+            'privacy'       => 'https://billing.natoreit.com/index.php?rp=/knowledgebase',
+            'refund'        => 'https://billing.natoreit.com/index.php?rp=/knowledgebase',
             'demo_cpanel'   => 'https://billing.natoreit.com/knowledgebase.php',
         ],
         'social'  => [
