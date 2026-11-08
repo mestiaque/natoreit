@@ -55,8 +55,11 @@ Route::get('vendor/nit/{path}', [SiteController::class, 'asset'])
 // Public website (URLs mirror natoreit.com)
 Route::group(['prefix' => config('nit.site_prefix', ''), 'as' => 'nit.site.', 'middleware' => ['web']], function () {
     Route::get('/', [SiteController::class, 'home'])->name('home');
+    // An empty whereIn() yields an empty requirement, which Symfony rejects;
+    // fall back to a pattern that never matches when no plan pages exist.
+    $planSlugs = array_keys(\ME\Nit\Support\Content::planPages());
     Route::get('/{slug}', [SiteController::class, 'plans'])->name('plans')
-        ->whereIn('slug', array_keys(\ME\Nit\Support\Content::planPages()));
+        ->where('slug', $planSlugs ? implode('|', array_map('preg_quote', $planSlugs)) : '(?!)');
     Route::get('/web-design', [SiteController::class, 'webDesign'])->name('web-design');
     Route::get('/multi-vendor-ecommerce', [SiteController::class, 'multiVendor'])->name('multi-vendor');
     Route::get('/erp-software', [SiteController::class, 'software'])->defaults('key', 'erp')->name('erp');
