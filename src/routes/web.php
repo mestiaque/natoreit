@@ -57,7 +57,7 @@ Route::group(['prefix' => config('nit.site_prefix', ''), 'as' => 'nit.site.', 'm
     Route::get('/', [SiteController::class, 'home'])->name('home');
     // An empty whereIn() yields an empty requirement, which Symfony rejects;
     // fall back to a pattern that never matches when no plan pages exist.
-    $planSlugs = array_keys(\ME\Nit\Support\Content::planPages());
+    $planSlugs = array_values(array_filter(array_map('strval', array_keys(\ME\Nit\Support\Content::planPages())), 'strlen'));
     Route::get('/{slug}', [SiteController::class, 'plans'])->name('plans')
         ->where('slug', $planSlugs ? implode('|', array_map('preg_quote', $planSlugs)) : '(?!)');
     Route::get('/web-design', [SiteController::class, 'webDesign'])->name('web-design');
