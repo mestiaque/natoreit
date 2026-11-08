@@ -1497,7 +1497,25 @@ html[data-bs-theme="dark"] .brand-logo { filter: drop-shadow(0 0 1px rgba(255, 2
 
 .brand-logo { mix-blend-mode: multiply; }
 html[data-bs-theme="dark"] .brand-logo { mix-blend-mode: normal; filter: none; padding: 2px 6px; border-radius: 8px; background: #fff; }
-html[data-bs-theme="dark"] .btn-primary:hover, html[data-bs-theme="dark"] .btn-outline-primary:hover { color: #0c1424; }
+/* Dark mode: the light frosted glass washes out on navy, so primary becomes a
+   solid brand pill and outline a dark glass pill, both with white labels. */
+html[data-bs-theme="dark"] .btn-primary,
+html[data-bs-theme="dark"] .btn-outline-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-active-color: #fff;
+    --bs-btn-disabled-color: rgba(255, 255, 255, .7);
+    --bs-btn-border-color: rgba(var(--nit-sky-rgb), .55);
+    --bs-btn-hover-border-color: rgba(var(--nit-sky-rgb), .9);
+    --bs-btn-focus-box-shadow: 0 0 0 2px #0c1424, 0 0 0 4px rgba(var(--nit-sky-rgb), .8);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .18), 0 6px 18px -8px rgba(var(--nit-primary-rgb), .7);
+}
+html[data-bs-theme="dark"] .btn-primary {
+    background: linear-gradient(180deg, var(--nit-primary-mid) 0%, var(--nit-primary) 55%, var(--nit-primary-dark) 100%);
+}
+html[data-bs-theme="dark"] .btn-outline-primary {
+    background: linear-gradient(180deg, rgba(255, 255, 255, .08) 0%, rgba(var(--nit-primary-rgb), .14) 100%);
+}
 .bento-cell:first-child .bento-card { display: flex; flex-direction: column; justify-content: flex-end; min-height: 15rem; }
 .bento-cell:first-child .icon-box { position: absolute; top: 1rem; left: 1rem; }
 .bento-cell:first-child .bento-card::before { content: ""; position: absolute; top: -35%; right: -18%; width: 70%; aspect-ratio: 1; border-radius: 50%; background: repeating-radial-gradient(circle, rgba(255, 255, 255, .13) 0 1px, transparent 1px 26px); pointer-events: none; }
